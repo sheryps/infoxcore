@@ -1,0 +1,74 @@
+{% extends 'BRadmin_index.html' %}
+{%load static%} {%block content%}
+<style>
+    table tr[data-href] {
+        cursor: pointer;
+    }
+    </style>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+        <div class="card mt-3 mb-5">
+            <div class="card-body">
+            <h4 class="card-title">Days</h4>
+            <div class="form-group">
+                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+                    title="Type in a name" style="color:white;">
+            </div>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="text-white ">From Date</th>
+                                <th class="text-white ">To Date</th>
+                                <th class="text-white ">Working Days</th>
+                                <th class="text-white ">Holidays</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <br>
+                            {% for i in mem %}
+                            <tr>
+
+
+                                <td> {{i.month_fromdate|date:"d-m-Y"}}</td>
+                                <td> {{i.month_todate|date:"d-m-Y"}}</td>
+                                <td> {{i.month_workingdays}}</td>
+                                <td> {{i.month_holidays}}</td>
+
+                            </tr>
+                            {% endfor %}
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < script tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+
+
+{%endblock%}

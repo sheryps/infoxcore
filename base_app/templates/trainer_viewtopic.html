@@ -1,0 +1,123 @@
+{%extends 'trainer_index.html'%} {% load static %} {% block content %}
+
+<div class="row mt-3 mb-5">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <h3>Topic List</h3>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <form>
+                            <div class="input-group input-group mb-3">
+                                <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table " id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Topic Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>{% if mem %} {% for i in mem %}
+                            <tr>
+                                <td>{{i.team}}</td>
+                                <td>
+
+                                    <span class="ps-2">{{ i.topic }} </span>
+
+                                </td>
+                                <td>{{i.startdate|date:"d-m-Y"}}</td>
+                                <td>{{ i.enddate|date:"d-m-Y" }}</td>
+
+                                <td>
+                                    {% if i.topic_status == "1" %}
+                                    <button type="button" class="btn btn-outline-success btn-icon-text">Completed</button>
+                                    {% else %}
+                                   <form action="" method="post">
+                                        {% csrf_token %}
+                                    <input type="hidden" name="sts" value="{{ i.id }}">
+                                    <button type="submit" name=submit class="btn btn-outline-danger btn-icon-text" value="submit" onclick="return confirm('Are you sure to submit this topic');">Submit</button>                     
+                                </form>
+                                {% endif %}
+                      
+                                </td>
+                            </tr>
+                            {% endfor %}{% else %}
+                            <h5>Nothing to display...</h5>
+                            {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+{% for i in mem %}
+<div class="modal" id="myModal{{i.id}}">
+    {% comment %} {% for i in mem%} {% endcomment %}
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Review</h4>
+                <button type="button" style="color: white;" class="close" data-dismiss="modal">&times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <p class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                    {{i.review}}
+                </p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer"></div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- modal end -->
+
+{% if msg_success %}
+    <script>
+        alert('{{ msg_success }}')
+        javascript: history.go(-2);
+    </script>
+    {% endif %}
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+{%endblock%}

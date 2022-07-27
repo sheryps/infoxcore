@@ -1,0 +1,210 @@
+{%extends 'index_trainingmanager.html'%} {% load static %} {% block content %}
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Task</h4>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <form>
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control text-white" id="myInput" onkeyup="myFunction()" placeholder="Search . . ." style="border: green" />
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="text-white">Trainee</th>
+                                
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <th class="text-white"> Department</th>
+                                <th class="text-white"> Delay</th>
+                                <th class="text-white">Action</th>
+                                <th class="text-white">Action</th>
+                                <th class="text-white">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if var %} {%for i in var%}
+                            <tr >
+                               
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.fullname}}</a>
+                                    </td>
+                                    
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.startdate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.enddate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{ i.department.department }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{ i.trainee_delay }}</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#myModal{{i.id}}" class="btn btn-social-icon-text btn-outline-primary"><i class="mdi mdi-tooltip-edit"></i>Extend</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#myModals{{i.id}}" class="btn btn-social-icon-text btn-outline-danger"><i class="mdi mdi-tooltip-edit"></i>Stop</button>
+                                   </td>
+                                   <td>
+                                    <form action="/probation_renew/?id={{i.id}}" method="post">
+                                        {%csrf_token%}
+                                    <button type="submit"class="btn btn-social-icon-text btn-outline-primary" name="renew"><i class="mdi mdi-tooltip-edit"></i>Renew</button>
+                                    </form>
+                                </td>
+                                </tr>
+                            {% endfor %}{% else %}
+                            <h5 style="text-align:center">Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%for i in var%}
+<!-- Modal -->
+<div class="modal" id="myModal{{i.id}}">
+    <div class="modal-dialog">
+        <div class="col-12 col-lg-12 grid-margin stretch-card bg-dark text-light modal-content">
+        <!-- Modal Header -->
+            <form action="/probations/?tid={{i.id}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                {%csrf_token%}
+                    <div class="modal-header">
+                        <h4 class="modal-title">Extend</h4>
+                        <button type="submit" style="color: white" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="row">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card" style="height: 420px">
+                                <div class="card-body">
+                                    <div class="dropdown">
+                                        <label style="font: size 14px; margin-top: 50px">Select Team</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <select class="badge badge-outline-primary bg-dark text-light" name="team">
+                                            <option style="display: none">Select team</option>
+                                            {%for var in team%}
+                                            <option value="{{var.id}}">{{var.name}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Reason</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control text-light"rows="3"cols="6" placeholder="Enter reason"name="extend_reason"></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Start Date</label>
+                                        <div class="col-12 col-sm-12 col-md-3 col-lg-8">
+                                            <input type="DATE" class="form-control text-light" name="startdate"id="from" >
+                                        </div>
+                                     </div>
+                                     <div class="form-group row">
+                                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">end Date</label>
+                                        <div class="col-12 col-sm-12 col-md-3 col-lg-8">
+                                            <input type="DATE" class="form-control text-light" name="enddate"id="to" >
+                                        </div>
+                                     </div><br>
+                                        <div class="row">
+                                            <div class="col-sm-5"></div>
+                                            <div class="col-sm-7" class="pull-right">
+                                                <button type="submit" class="btn btn-outline-primary btn-icon-text"><i class="mdi mdi-refresh btn-icon-prepend"></i>Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <!-- modal end -->
+    {%for i in var%}
+<!-- Modal -->
+<div class="modal" id="myModals{{i.id}}">
+    <div class="modal-dialog">
+        <div class="col-12 col-lg-12 grid-margin stretch-card bg-dark text-light modal-content">
+        <!-- Modal Header -->
+            <form action="/probation_stop/?id={{i.id}}" method="post" enctype="multipart/form-data" autocomplete="off">
+                {%csrf_token%}
+                    <div class="modal-header">
+                        <h4 class="modal-title">Stop</h4>
+                        <button type="submit" style="color: white" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="row">
+                        <div class="col-12 grid-margin stretch-card">
+                            <div class="card" style="height:220px">
+                                <div class="card-body">
+                                    
+                                    <div class="form-group row">
+                                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Reason</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control text-light" rows="5"cols="6" placeholder="Enter reason" name="stop_reason"></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    
+                                    
+                                        <div class="row">
+                                            <div class="col-sm-5"></div>
+                                            <div class="col-sm-7" class="pull-right">
+                                                <button type="submit" class="btn btn-outline-danger btn-icon-text"><i class="mdi mdi-refresh btn-icon-prepend"></i>Stop</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    <!-- modal end -->
+    <script language="javascript">
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+      
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#from').attr('min',today);
+        $('#to').attr('min',today);
+      </script>
+<script>
+     function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    {% endblock %}

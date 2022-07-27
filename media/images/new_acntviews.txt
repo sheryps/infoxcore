@@ -1,0 +1,29 @@
+#################### views ####################
+
+def accounts_salary_pending(request):
+    if 'usernameacnt2' in request.session:
+        if request.session.has_key('usernameacnt2'):
+            usernameacnt2 = request.session['usernameacnt2']
+        z = user_registration.objects.filter(id=usernameacnt2)
+        vars = user_registration.objects.filter(salary_status=0)
+        return render(request,'accounts_salary_pending.html', {'z':z,'vars':vars})
+    else:
+        return redirect('/')
+
+def salarysubmit(request,id):
+    if request.method == 'POST':
+            m = user_registration.objects.get(id=id)
+            m.salary_status = 1
+            m.save()
+            return redirect('/accounts_salary_pending')
+    return redirect('/accounts_salary_pending')
+  
+def accounts_salary_given(request):
+    if 'usernameacnt2' in request.session:
+        if request.session.has_key('usernameacnt2'):
+            usernameacnt2 = request.session['usernameacnt2']
+        z = user_registration.objects.filter(id=usernameacnt2)
+        vars = user_registration.objects.filter(salary_status=1)
+        return render(request,'accounts_salary_given.html', {'z':z,'vars':vars})
+    else:
+        return redirect('/')

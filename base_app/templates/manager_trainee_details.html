@@ -1,0 +1,92 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="row mt-3 justify-content-center">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <form>
+                <div class="input-group input-group-sm mb-3">
+                  <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+              title="Type in a name" style="color:white;">
+  
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table " id="myTables">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Submition Date</th>
+                  <th>files</th>
+                  <th>user_files</th>
+                  <th>Progress</th>
+                  <th>Delay </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if names %}
+                {% for i in names %}
+                <tr>
+                  <td>{{i.taskname}}</td>
+                  <td>{{i.startdate|date:'d-m-Y'}}</td>
+                  <td>{{i.enddate|date:'d-m-Y'}}</td>
+                  <td>{{i.submitteddate|date:'d-m-Y'}}</td>
+                  <td>{{i.files}}</td>
+                  <td>{{i.user_files}}</td>
+                  <td>
+                    <div class="progress" style="height:20px;">
+                        <div class="progress-bar" style="height:20px;width:{{i.task_progress}} %">{{i.task_progress}}%</div>
+                    </div>
+                  </td>
+                  
+                  <td>{{i.delay}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                  <th colspan="7">Total Delay</th>
+                  {% if a == 0 %}
+                 
+                  <th>0</th>
+                 
+                  {% else %}
+                  <th>{{a}}</th>
+                  {% endif %}
+                </tr>
+              {% else %}
+              <h5>Nothing to display...</h5>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      function myFunction() {
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTables");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      
+  </script>

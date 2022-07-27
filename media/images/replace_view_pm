@@ -1,0 +1,126 @@
+def projectmanager_assignproject(request):
+    if 'prid' in request.session:
+        if request.session.has_key('prid'):
+            prid = request.session['prid']
+       
+        else:
+            return redirect('/')
+        pro = user_registration.objects.filter(id=prid)
+        desi_id = user_registration.objects.get(id=prid)
+        d = designation.objects.get(designation="team leader")
+        t = designation.objects.get(designation="tester")
+        
+        
+        tes = user_registration.objects.filter(department_id = desi_id.department_id, designation_id= t.id)
+        spa = user_registration.objects.filter(department_id = desi_id.department_id, designation_id= d.id)
+        
+        pvar = project.objects.filter(Q(status="accepted")|Q(status="assigned"))
+        
+        if request.method =='POST':
+            
+            var = project_taskassign()
+            # print("hii")
+            var.user_id = prid
+            var.tl_id = request.POST['pname']
+            var.task = request.POST['task']
+            var.description=request.POST.get('desc')
+            var.startdate=request.POST.get('sdate')
+            var.enddate=request.POST.get('edate')
+            
+            bb= datetime.strptime(var.startdate, '%Y-%m-%d').strftime('%d-%m-%Y')
+            
+            cc= datetime.strptime(var.enddate, '%Y-%m-%d').strftime('%d-%m-%Y')
+            if request.FILES.get('pfile') is not None:
+                var.files=request.FILES.get('pfile')
+                
+            var.project_id = request.POST.get('yyy')
+
+            var.developer_id= request.POST['pname']
+            var.tester_id= request.POST['tname']
+
+            var.save()
+            new = project.objects.get(id=var.project_id)
+            new.status = "assigned"
+            new.save()
+            v = request.POST.get('pname')
+            em=user_registration.objects.get(id=v)
+            
+            subject = 'Greetings from iNFOX TECHNOLOGIES'
+            message = 'Congratulations,\n' \
+            'You are assigned new project from iNFOX TECHNOLOGIES.\n' \
+            'following is your Project Details\n'\
+            'Project :'+str(new.project)+'\n' 'Task :'+str(var.task) +'\n' 'Description :'+str(var.description)+'\n''Start Date :'+bb+'\n' 'End Date :'+cc+'\n'\
+            '\n' 'Complete your project on or before Enddate \n'\
+                'NOTE : THIS IS A SYSTEM GENETATED MAIL PLEASE DO NOT REPLY' 
+            recepient = str(em.email)
+            send_mail(subject, message, EMAIL_HOST_USER,
+                  [recepient], fail_silently=False)
+            msg_success = "Project assigned successfully"
+            
+            return render(request, 'projectmanager_assignproject.html',{'pro':pro,'spa':spa,'pvar':pvar,'tes':tes, 'msg_success':msg_success})
+        return render(request, 'projectmanager_assignproject.html', {'pro':pro,'spa':spa,'pvar':pvar,'tes':tes})
+    else:
+        return redirect('/')
+
+
+
+def tlgivetask(request):
+    if 'tlid' in request.session:
+        if request.session.has_key('tlid'):
+            tlid = request.session['tlid']
+        else:
+            return redirect('/')
+        splitid = request.session['splitid']
+      
+        mem = user_registration.objects.filter(id=tlid)
+        dept_id = user_registration.objects.get(id=tlid)
+       
+        e = designation.objects.get(designation="tester")
+        dev_id = designation.objects.get(designation="developer")
+        e1 = e.id
+        spa = user_registration.objects.filter(tl_id=dept_id.id)
+        spa1 = user_registration.objects.filter(designation_id=e1)
+        time=datetime.now().date()
+        tasks = project_taskassign.objects.filter(tl_id=tlid,project_id=splitid).values('task').distinct()
+        new = project.objects.get(id=splitid)
+        
+        if request.method =='POST':
+            
+            var = project_taskassign()
+           
+            var.developer_id =  request.POST['ename']
+            var.tl_id = tlid
+            var.tester_id = request.POST['tname']
+            var.tl_description=request.POST.get('description')
+            var.subtask=request.POST.get('subtask')
+            var.task = request.POST.get('task')
+            var.startdate= time
+            
+            var.enddate= request.POST.get('date')
+            bb= (var.startdate).strftime('%d-%m-%Y')
+            
+            cc= datetime.strptime(var.enddate, '%Y-%m-%d').strftime('%d-%m-%Y')
+            var.files=request.FILES['files']
+            var.extension=0
+            var.project_id = splitid
+            var.description = new.description
+            var.save()
+            v = request.POST.get('ename')
+            em=user_registration.objects.get(id=v)
+            print(em.email)
+            subject = 'Greetings from iNFOX TECHNOLOGIES'
+            message = 'Congratulations,\n' \
+            'You are assigned new project from iNFOX TECHNOLOGIES.\n' \
+            'following is your Project Details\n'\
+            'Project :'+str(var.project.project)+'\n' 'Task :'+str(var.task) +'\n' 'Description :'+str(var.tl_description)+'\n' 'SubTask :'+str(var.subtask)+'\n''Start Date :'+bb+'\n' 'End Date :'+cc+'\n'\
+            '\n' 'Complete your project on or before Enddate \n'\
+                'NOTE : THIS IS A SYSTEM GENETATED MAIL PLEASE DO NOT REPLY' 
+            recepient = str(em.email)
+            send_mail(subject, message, EMAIL_HOST_USER,
+                  [recepient], fail_silently=False)
+            msg_success = "Task split successfully"
+            return render(request, 'TLgivetask.html',{'msg_success':msg_success})
+        else:
+            return render(request, 'TLgivetask.html',{'mem':mem,'spa':spa,'spa1':spa1,'time':time,'tasks':tasks})
+    else:
+        return redirect('/')

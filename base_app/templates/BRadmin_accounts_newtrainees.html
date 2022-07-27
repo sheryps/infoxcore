@@ -1,0 +1,109 @@
+{% extends 'BRadmin_index.html' %}
+{% load static %}
+{% block content %}
+<body>
+<style>
+
+
+table tr[data-href] {
+    cursor: pointer;
+}
+
+</style>
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row" >
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Trainees</h4>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+                title="Type in a name" style="color:white;">
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- table start hear --> 
+
+          <div class="table-responsive">
+            <table class="table " id="myTable">
+              <thead  >
+              
+                <tr data-href="#">
+                  <th style="padding-left:30px;"> Name </th>
+                  <th style="padding-left:50px;"> Email</th>
+                  <th> Number </th>
+                  <th > Course  </th>
+                  <th>Total Amount</th>
+                  <th style="padding-left:15px;"> Joining Date</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                
+                {% for t in deta %}
+                <tr data-href="#">
+                  <td>
+                    <img src="{{t.photo.url}}" alt="image" />
+                     <span class="ps-2">{{t.fullname}}</span>
+                  </td>
+                  <td> {{t.email}}</td>
+                  <td >{{t.mobile}}</td>
+                  <td >{{t.course.name}}</td> 
+                  <td>{{t.total_amount}}</td>
+                  <td style="padding-left:15px;">{{t.joiningdate|date:"d-m-Y"}} </td>
+                  
+                </tr> 
+                {% endfor %}               
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+  
+  $(function() {
+  $("#totalid, #amid").on("keyup", balance);
+ 	function balance() {
+ 	$("#balance").val(Number($("#totalid").val()) - Number($("#amid").val()));
+ 	//$("#subt").val(Number($("#num1").val()) - Number($("#num2").val()));
+	}
+ });
+
+
+</script>
+
+{% endblock %}

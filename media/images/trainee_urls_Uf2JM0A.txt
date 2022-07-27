@@ -1,0 +1,15 @@
+ 
+    re_path(r'^tm_trainee_status$', views.tm_trainee_status, name='tm_trainee_status'),
+    re_path(r'^tm_trainee_details$', views.tm_trainee_details, name='tm_trainee_details'),
+
+    re_path(r'^projectmanager_trainee_status$', views.projectmanager_trainee_status, name='projectmanager_trainee_status'),
+    re_path(r'^projectmanager_trainee_details$', views.projectmanager_trainee_details, name='projectmanager_trainee_details'),
+    
+    re_path(r'^manager_trainee_status$', views.manager_trainee_status, name='manager_trainee_status'),
+    re_path(r'^manager_trainee_details$', views.manager_trainee_details, name='manager_trainee_details'),
+    re_path(r'^manager_trainess$', views.manager_trainess, name='manager_trainess'),
+
+      
+    re_path(r'^BRadmin_trainee_status$', views.BRadmin_trainee_status, name='BRadmin_trainee_status'),
+    re_path(r'^BRadmin_trainee_details$', views.BRadmin_trainee_details, name='BRadmin_trainee_details'),
+    re_path(r'^BRadmin_trainess$', views.BRadmin_trainess, name='BRadmin_trainess'),

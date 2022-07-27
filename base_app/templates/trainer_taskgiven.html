@@ -1,0 +1,219 @@
+{%extends 'trainer_index.html' %} {% load static %} {% block content %}
+
+
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" style="margin-top: -16px">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-3">
+                        <h4>Trainees Task List</h4><br>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"
+                                placeholder="Search for names.." title="Type in a name" style="color:white;">
+                        </div>
+
+                    </div>
+                </div>
+                <!-- given task starts here -->
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr data-href="#">
+                                <th> Trainee Name </th>
+                                <th> Task</th>
+                                <th> Start Date</th>
+                                <th> End Date</th>
+                                <th> Trainer File</th>
+                                <th> User File</th>
+                                <th> Status</th>
+                                <th>Task_Progress</th>
+                                <th>Progress</th>
+                                <th>Delay</th>
+                            </tr>
+                        </thead>
+                        <tbody>{% if mem1 %} {% for i in tsk %}
+                            <tr>
+                                <td><img src="{{i.user.photo.url}}" alt="image" /> &nbsp;{{i.user}}
+                                </td>
+                                <td> {{i.taskname}}</td>
+                                <td> {{i.startdate|date:'d-m-Y'}}</td>
+                                <td> {{i.enddate|date:'d-m-Y'}}</td>
+                                <td>
+                                    {% if i.files %}
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-1">
+                                        <a href="{{i.files.url}}"
+                                            class="btn btn-outline-success mdi mdi-format-vertical-align-bottom"
+                                            style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2"
+                                            style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if i.user_files %}
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 mt-1">
+                                        <a href="{{i.user_files.url}}"
+                                            class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                            style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2"
+                                            style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+
+                                    {% if i.task_status == '0' %}
+
+                                    <div class="badge badge-outline-danger" style="width: 135px;">
+                                        <i class="mdi mdi-playlist-remove"></i>&nbsp;
+                                        Not Submitted
+                                    </div>
+
+
+                                    {%else %}
+
+                                    <div class="badge badge-outline-success" style="width: 135px;">
+                                        <i class="mdi mdi-playlist-check"></i>&nbsp;
+                                        Submitted
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="progress" style="height:20px;">
+                                        <div class="progress-bar" style="height:20px;width:{{i.task_progress}}%">
+                                            {{i.task_progress}}%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if i.task_progress == 100 %}
+                                    <button type="button" disabled class="btn btn-outline-primary btn-icon-text"
+                                        data-toggle="modal" data-target="#myModal{{i.id}}">
+                                        Progress
+                                    </button> 
+                                    {% else %}
+                                    <button type="button" class="btn btn-outline-primary btn-icon-text"
+                                        data-toggle="modal" data-target="#myModal{{i.id}}">
+                                        Progress
+                                    </button>
+                                    {% endif %}
+                                </td>
+                                 <td>
+                                        <a href="#"
+                                            class="btn btn-outline-danger ">{{i.delay}}</a>
+                        
+                                </td>
+
+                            </tr>
+                            {% endfor %}{% else %}
+                            <h5>Nothing to display...</h5>
+                            {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ends here -->
+
+
+</div>
+</div>
+</div>
+</div>
+
+{% for i in tsk %}
+<div class="modal" id="myModal{{i.id}}">
+    <div class="modal-dialog">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin stretch-card bg-dark text-light modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Progress</h4>
+                <button type="button" style="color: white;" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value="{{i.id}}">
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <div class="card" style="height:auto;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 mt-3">
+
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12">
+                                            <div class="form-group row">
+                                                <label class="col-9 col-sm-6 col-md-6 col-lg-6 col-form-label">Performance </label>
+                                                <div class="col-3 col-sm-6 col-md-6 col-lg-6">
+                                                    <select name="sele" class="badge badge-outline-primary bg-dark " onfocus='this.size=5;' style="color:#bfbfbf; width:80px;" onblur='this.size=1;' onchange='this.size=1; this.blur();' >
+                                                <option style="display: none;" >0 - 10</option>
+                                                <option value="0">0</option>
+                                                <option value="10">1</option>
+                                                <option value="20">2</option>
+                                                <option value="30">3</option>
+                                                <option value="40">4</option>
+                                                <option value="50">5</option>
+                                                <option value="60">6</option>
+                                                <option value="70">7</option>
+                                                <option value="80">8</option>
+                                                <option value="90">9</option>
+                                                <option value="100">10</option>
+                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary btn-icon-text">
+                <i class="mdi mdi-file-check text-info" style="font-size:18px; "></i>Submit</button>
+            </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- modal end -->
+{% if msg_success %}
+    <script>
+        alert('{{ msg_success }}')
+        javascript: history.go(-2);
+    </script>
+    {% endif %}
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+{%endblock%}

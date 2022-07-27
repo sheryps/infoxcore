@@ -1,0 +1,170 @@
+{%extends 'TLindex.html'%}
+{%load static%}
+{%block content%}
+<style>
+  .Search {
+    margin-top: 4%;
+    float: right;
+    margin-right: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
+    line-height: 2;
+
+  }
+</style>
+
+
+<div class="row " style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293 ;">GIVE TASK</div>
+</div>
+<div class="row mt-3">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class="mr-2 ml-3 mt-2" style="color:white ;">Select Employee </div>
+            </div>
+            <div class="col-md-8 ">
+              <select id="" name="ename" class="drop form-control ml-3 mt-2 text-light" required
+                style="border:1px solid #6C7293 ;">
+                <option value=""></option>
+                {% for i in spa %}
+
+                <option value="{{i.id}}">{{i.fullname}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class="mr-2 ml-3 mt-2" style="color:white ;">Select Tester </div>
+            </div>
+            <div class="col-md-8 ">
+              <select id="" name="tname" class="drop form-control ml-3 mt-2 text-light" required
+                style="border:1px solid #6C7293 ;">
+                <option value=""></option>
+                {% for i in spa1 %}
+                
+                <option value="{{i.id}}">{{i.fullname}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class="mr-2 ml-3 mt-2" style="color:white ;">Select Task </div>
+            </div>
+            <div class="col-md-8 ">
+              <select id="" name="task" class="drop form-control ml-3 mt-2 text-light" required
+                style="border:1px solid #6C7293 ;">
+                <option value=""></option>
+                {% for i in tasks %}
+                
+                <option value="{{i.task}}">{{i.task}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class="mr-2 ml-3 mt-2" style="color:white ;">SubTask</div>
+            </div>
+            <div class="col-md-8 ">
+              <input type="text" name="subtask" class="drop form-control ml-3 mt-2 text-light" autocomplete="off" required
+                style="border:1px solid #6C7293 ;">
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class=" mr-2 ml-3 mt-2" style="color:white ;">Description</div>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="description" class="drop form-control ml-3 mt-2 text-light" required
+                style="border:1px solid #6C7293 ;height:70px;"></textarea>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class=" mr-2 ml-3 mt-2 text-light" style="color:white ;">Start Date</div>
+            </div>
+            <div class="col-md-8 ">
+              <input type="date" name="start_date" id="due" class="drop form-control ml-3 mt-2 text-light" value='{{time|date:"Y-m-d"}}'' required
+              style="border:1px solid #6C7293 ;color:#6C7293;">
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class=" mr-2 ml-3 mt-2" style="color:white ;">Due Date</div>
+            </div>
+            <div class="col-md-8 ">
+              <input type="date" name="date" id="due1" class="drop form-control ml-3 mt-2 text-light" required
+                style="border:1px solid #6C7293 ;color:#6C7293;">
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-md-4">
+              <div class="mr-2 ml-3 mt-2" style="color:white ;">Attach Files</div>
+            </div>
+            <div class="col-md-8 ">
+              <input type="file" name="files" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
+            </div>
+          </div>
+          <div class=" row  mt-3 ">
+            <div class="">
+              <button type="submit" name="submit" id="alert2" class="btn-primary Search">Assign</button>
+            </div>
+            <div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if msg_success %}
+<script>
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    text: '{{ msg_success }}',
+    showConfirmButton: false,
+    timer: 2000
+  }).then(function () {
+    javascript: history.go(-3);
+  })
+
+</script>
+{% endif %}
+<script>
+   $(function() {
+        var date = new Date();
+        var tdate = date.getDate();
+        var month = date.getMonth()+1;
+       
+        if (tdate < 10){
+            tdate = '0' + tdate;
+        }
+
+        if (month < 10){
+            month = '0' + month;
+        }
+        var year = date.getUTCFullYear();
+        var minDate= year + "-" + month + "-" +tdate;
+        document.getElementById("due").setAttribute('min',minDate)
+        document.getElementById("due1").setAttribute('min',minDate)
+
+    })
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'BRadmin_index.html' %}
+{% load static %}
+{% block content %}
+<body>
+<style>
+
+
+table tr[data-href] {
+    cursor: pointer;
+}
+
+</style>
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row" >
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>Trainee Payment NotVerified</h4>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+                title="Type in a name" style="color:white;">
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- table start hear --> 
+
+          <div class="table-responsive">
+            <table class="table " id="myTable">
+              <thead  >
+              
+                <tr data-href="#">
+                  <th style="padding-left:30px;"> Name </th>
+                  <th style="padding-left:50px;"> Email</th>
+                  <th> Number </th>
+                  <th style="padding-left:10px;"> Platform  </th>
+                  <th style="padding-left:15px;"> Department </th>
+                  <th style="padding-left:15px;"> Joining Date</th>
+                  <th>Total Amount</th>
+                  <th>Balance Amount</th>
+                  <th style="padding-left:25px;"> Download </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                
+                {% if deta %}{% for t in deta %}
+                {% if t.payment_status == '0' %}
+                <tr data-href="#">
+                  <td>
+                    <img src="{{t.photo.url}}" alt="image" />
+                     <span class="ps-2">{{t.fullname}}</span>
+                  </td>
+                  <td> {{t.email}}</td>
+                  <td >{{t.mobile}}</td>
+                  <td >{{t.course.name}}</td> 
+                  <td > {{t.department.department}} </td>
+                  <td style="padding-left:15px;">{{t.joiningdate|date:"d-m-Y"}} </td>
+                  <td>{{t.total_amount}}</td>
+                  <td>{{t.payment_balance}}</td>
+                  <td>
+                    {% if t.payment_file_downlod %}
+                    <a class="btn btn-outline-primary  mr-2 ml-6 mt-2" style="font-size: 13px;width: 100px; font-weight: 100;" href="{{t.payment_file_downlod.url}}" download>
+                        <i class="mdi mdi-format-vertical-align-bottom ">Download</i></a>
+                    {% endif %}
+                    </a>
+                  </td>
+                </tr> 
+                {% endif %}
+                {% endfor %}  {% else %}
+                <h5>Nothing to display...</h5>
+                {% endif %}             
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+  
+  $(function() {
+  $("#totalid, #amid").on("keyup", balance);
+ 	function balance() {
+ 	$("#balance").val(Number($("#totalid").val()) - Number($("#amid").val()));
+ 	//$("#subt").val(Number($("#num1").val()) - Number($("#num2").val()));
+	}
+ });
+
+
+</script>
+
+{% endblock %}

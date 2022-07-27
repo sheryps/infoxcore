@@ -1,0 +1,5 @@
+ ######################## urls ####################################
+
+re_path(r'^accounts_salary_pending/$', views.accounts_salary_pending, name='accounts_salary_pending'),
+re_path(r'^salarysubmit/(?P<id>\d+)$', views.salarysubmit, name='salarysubmit'),
+re_path(r'^accounts_salary_given/$',views.accounts_salary_given, name='accounts_salary_given'),

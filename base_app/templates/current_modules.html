@@ -1,0 +1,97 @@
+{% extends 'promanagerindex.html' %}
+{% load static %}
+{% block content %}
+<div class="row" style="padding-top: 20px">
+    <div class="col-sm-6 grid-margin">
+        <div class="card" style="height: auto">
+            <h4 class="card-title ml-4 mt-3">Modules</h4>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control text-white" id="myInput" onkeyup="myFunction()"
+                        placeholder="Search . . ." style="border: green" />
+                </div>
+            </form>
+            </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-white ">Modules</th>
+                                    <th class="text-white ">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                {% for j in data%}
+                                <tr>
+                                    <td>{{j.module}}</td>
+                                    <td>{{j.description}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 grid-margin">
+        <div class="card" style="height: auto">
+            <h4 class="card-title mt-3 ml-4">Tables</h4>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form>
+                <div class="input-group input-group-sm ">
+                    <input type="text" class="form-control text-white" id="myInputs" onkeyup="myFunction()"
+                        placeholder="Search . . ." style="border: green" />
+                </div>
+            </form>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th class="text-white ">Tables</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="myTables">
+                                {% for i in tab %}
+                                <tr>
+                                    
+                                    <td>{{i.description}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </a>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script> 
+<script>
+    $(document).ready(function () {
+        $("#myInputs").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTables tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+    </script> 
+{%endblock%}

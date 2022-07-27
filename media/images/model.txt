@@ -1,0 +1,2 @@
+user_id = models.ForeignKey(user_registration, on_delete=models.SET_NULL,
+                             related_name='project_task_user', null=True, blank=True )

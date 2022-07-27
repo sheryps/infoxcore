@@ -1,0 +1,78 @@
+{%extends 'index_trainingmanager.html'%} {% load static %} {% block content %}
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">New Team</h4>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <form>
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control text-white" id="myInput" onkeyup="myFunction()" placeholder="Search . . ." style="border: green" />
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="text-white">Name</th>
+                                
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <th class="text-white">Progress</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if var %} {%for i in var%}
+                            <tr >
+                               
+                                    <td>
+                                        <a href="/completed_team_task/{{i.user_id}}/{{i.teamname.id}}/" style="text-decoration: none; color: #6c7293">{{i.user.fullname}}</a>
+                                    </td>
+                                   
+                                    <td>
+                                        <a href="completed_team_task/{{i.user_id}}/{{i.teamname.id}}/" style="text-decoration: none; color: #6c7293">{{i.startdate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="completed_team_task/{{i.user_id}}/{{i.teamname.id}}/" style="text-decoration: none; color: #6c7293">{{i.enddate|date:"d-m-Y"}}</a>
+                                    </td>
+                                
+                                    <td>
+                                        <div class="progress" style="height:20px;">
+                                            <div class="progress-bar" style="height:20px;width:{{i.progress}}%">{{i.progress}}%</div>
+                                        </div>
+                                    </td>
+                                    
+                            </tr>
+                            {% endfor %}{% else %}
+                            <h5 style="text-align:center">Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    {% endblock %}

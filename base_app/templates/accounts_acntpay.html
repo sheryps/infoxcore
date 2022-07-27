@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-12 col-sm-2 col-md-2 col-lg-2"></div>
+    <div class="table-responsive">
+        
+        <table class="table table-bordered mt-4 text-light col-sm-12 col-md-8 col-lg-8 " style=" width: 1200px;">
+            <tr>
+                <th>SLNO</th>
+                <th>PARTICULARS</th>
+                <th>EMAIL-ID </th>
+                <th>SALARY GIVEN</th>
+                <th>ACCOUNT NUMBER</th>
+                <th>BANK NAME</th>
+                <th>BRANCH</th>
+                <th>VIEW SLIP</th>
+            </tr>
+            <tbody>
+                {% if names %} {% for i in names %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.user_id.fullname}}</td>
+                    <td>
+                        {{i.user_id.email}}</td>
+                    <td>{{i.fromdate|date:'d-m-Y'}}</td>
+                    <td>
+                        {{i.account_no}}</td>
+                    <td>
+                        {{i.bank_name}}</td>
+                    <td>
+                        {{i.bank_branch}}</td>
+                    <td style="text-decoration: none;">
+                        <a href="/acntpaypdf/{{i.id}}/{{i.user_id.id}}">View slip</a>
+                </tr>
+                {% endfor %} {% else %}
+                <h5>Nothing to display...</h5>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>

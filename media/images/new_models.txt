@@ -1,0 +1,4 @@
+ ############################## user model ################
+
+salary_pending = models.CharField(max_length=255, default='')
+ salary_status =  models.CharField(max_length=255, default='')

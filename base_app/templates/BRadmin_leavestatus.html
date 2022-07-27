@@ -1,0 +1,173 @@
+{% extends 'BRadmin_index.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label>Select Department</label>
+                        <select class="form-control" id="regdetailsDesig" style="color:white;" name="Department">
+                            <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                            {% for i in dep %}
+                            <option value="{{i.id}}">{{i.department}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Designation</label>
+                        <select class="form-control" style="color:white;" name="designation" id="designation">
+                           
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select class="form-control" id="empname" style="color:white;" name="emp">
+                            
+                        </select>
+
+                    </div>
+
+                    <div class="row mt-0 ">
+                        <div class="col-12 col-sm-12 col-md-5 col-lg-5 ">
+                            <div class="form-group row ">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-5 col-form-label ">FROM</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 ">
+                                    <input type="Date" class="form-control text-light " name="start " id="txtDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 "></div>
+                        <div class="col-12 col-sm-12 col-md-5 col-lg-5 ">
+                            <div class="form-group row ">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-5 col-form-label ">TO</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 ">
+                                    <input type="Date" class="form-control text-light" name="start " id="txtDate1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    
+                    <div class="form-check form-check-flat form-check-primary">
+                        <center>
+                        <button type="submit" class="btn btn-primary  me-2"  id="btnSearch" >Submit</button>
+                        </center>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="hiddendiv"></div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $("#regdetailsDesig").change(function () {
+        const deptId = $(this).val();
+        
+        $.ajax({
+            url: '{% url "BRadmin_leavedesgn" %}',
+            data: {
+                'dept_id': deptId
+            },
+
+            success: function (data) {
+                $("#designation").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+    $("#designation").change(function () {
+        const deptId = $("#regdetailsDesig").val();
+        const desigId = $("#designation").val();
+        console.log(deptId,desigId);
+        $.ajax({
+            url: '{% url "BRadmin_emp_ajax" %}',
+            data: {
+                'dept_id': deptId,
+                'desigId':desigId,
+            },
+            success: function (data) {
+                $("#empname").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript ">
+     
+    $("#btnSearch").click(function() {
+        const emp = $("#empname").val();
+        const fdate = $("#txtDate").val();
+        const tdate = $("#txtDate1").val();
+       
+        $.ajax({
+            url: '{% url "BRadmin_leave_details" %}',
+            
+            data: {
+
+                'emp': emp,
+                'fdate': fdate,
+                'tdate': tdate,
+            
+            },
+
+            success: function(data) {
+                $("#hiddendiv").html(data);
+            }
+        });
+    });
+
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block ";
+    }
+</script>
+<!-- <script type="text/javascript ">
+    $("#btnSearch").click(function() {
+        const emp = $("#empname").val();
+        
+        console.log( emp);
+        jQuery.ajax({
+            
+            url: '{% url "BRadmin_leave_details" %}',
+            method: 'post',
+            data: {
+
+                'emp': emp,
+            },
+
+            success: function(data) {
+                $("#hiddendiv").html(data);
+                console.log(data);
+            }
+        });
+    });
+
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block";
+    }
+</script> -->
+
+
+
+
+  {% endblock %}

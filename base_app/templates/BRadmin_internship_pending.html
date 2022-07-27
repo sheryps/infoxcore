@@ -1,0 +1,109 @@
+{% extends 'BRadmin_index.html' %}
+{% load static %}
+{% block content %}
+<body>
+<style>
+
+
+table tr[data-href] {
+    cursor: pointer;
+}
+
+</style>
+
+  
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row" >
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <h4> Internship Payment Pending List </h4> 
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+                title="Type in a name" style="color:white;">
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- table start hear --> 
+
+          <div class="table-responsive">
+            <table class="table " id="myTable">
+              <thead>
+              
+                <tr data-href="#">
+                  <th style="padding-left:30px;"> Name </th>
+                  <th style="padding-left:55px;"> Email</th>
+                  <th style="padding-left:15px;"> Fee </th> 
+                  <th style="padding-left:10px;"> Internship Type </th>
+                  <th style="padding-left:10px;"> Duration</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for t in data %}
+
+                <tr data-href="#">
+                  <td>
+                    <img src="{{t.profile_pic.url}}" alt="image" />
+                     <span class="ps-2">{{t.fullname}}</span>
+                  </td>
+                  <td> {{t.email}}</td>
+                  <td style="padding-left:5px;">{{t.total_fee}}</td>
+                  <td style="padding-left:35px;">{{t.internshiptype.type}}</td>
+                  <td style="padding-left:10px;">{{t.internshiptype.duration}}</td>
+                  
+                  
+                {% endfor %}
+
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
+  
+  $(function() {
+  $("#totalid, #amid").on("keyup", balance);
+ 	function balance() {
+ 	$("#balance").val(Number($("#totalid").val()) - Number($("#amid").val()));
+ 	//$("#subt").val(Number($("#num1").val()) - Number($("#num2").val()));
+	}
+ });
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Attendance List</h3>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()"
+                  placeholder="Search for names.." title="Type in a name" style="color:white;">
+
+
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table " id="myTable">
+
+            <thead>
+              <tr data-href="#">
+                <th>Date</th>
+                <th></th>
+                <th></th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for i in Desig %}
+             
+              <tr>
+                <td> {{i.date|date:'d-m-Y'}}</td>
+                <td> </td>
+                <td> </td>
+                <td>
+                  {% if i.attendance_status == '1' %}
+                  <div class="badge badge-outline-success">Present</div>
+                  {% else %}
+                  <div class="badge badge-outline-danger">Absent</div>
+                  {% endif %}
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+
+
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>

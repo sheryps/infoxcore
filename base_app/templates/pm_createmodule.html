@@ -1,0 +1,60 @@
+{% extends 'promanagerindex.html' %} 
+{% load static %} 
+{% block content %}
+<html>
+    <title>Create Project</title>
+    <style>
+      input[type=text],
+      input[type=text]:focus {
+        background-color: #2a3038;
+      }
+    </style>
+
+    <form class="card col-12" method="post" action="" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+        <div class="card-body col-12">
+            <h2>Create Module</h2><br>
+            <label>Project Name</label>
+            <select class="badge badge-outline-primary bg-dark text-light col-12 md-4" name="project_id" required>
+                <option style="display: none" value="">---- Select Project ----</option>
+                {% for i in project_data %}
+                <option value="{{i.id}}">{{i.project}}</option>
+                {% endfor %}
+            </select>
+            <label class="mt-3">Project Module</label>
+            <textarea type="text" name="module" style="height: 100px;" class="form-control card-title col-12 md-4" style='color:white'required placeholder="Project Module"></textarea>
+            <label >Description</label>
+            <textarea type="text" name="moduledescription" style="height: 100px;" class="form-control card-title col-12 md-4" style='color:white'required placeholder="Module Description"></textarea>
+            <button type="submit" style="float: right;" class="btn btn-outline-primary btn-icon-text">
+                  <i class="mdi mdi-file-check btn-icon-prepend"></i> Create </button>
+                </div>
+        </div>
+    </form>
+{% if msg_success %}
+    <script>
+        alert('{{ msg_success }}')
+        javascript: history.go(-2);
+    </script>
+    {% endif %}
+<script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+   dd = '0' + dd;
+}
+
+if (mm < 10) {
+   mm = '0' + mm;
+} 
+    
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("sdate").setAttribute("min", today);
+document.getElementById("edate").setAttribute("min", today);
+</script>
+{% endblock %}
+
+</html>

@@ -1,0 +1,65 @@
+{% extends 'index_accounts.html' %} 
+{%load static%} {%block content%}
+
+<div class="row" style="padding-top:20px;">
+  <div class="col-sm-6 grid-margin">
+    <a href="{%url 'accounts_internship_payment_pending'%}" style="text-decoration: none">
+    <div class="card" style="height: 180px">
+        <div class="card-body">
+          <div class="row" style="padding-top:50px;">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h3 class="mb-0" style="color:white;">Internship Payment Pending</h3>
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-2 text-center text-xl-right">
+            
+              <span class="text-light" style="font-size:25px;">{{ipcount}}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-sm-6 grid-margin">
+    <a href="{%url 'accounts_internship_viewall' %}" style="text-decoration: none">
+    <div class="card" style="height: 180px">
+      <div class="card-body">
+          <div class="row" style="padding-top:50px;">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h3 class="mb-0" style="color:white;">View All</h3>
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-2 text-center text-xl-right">
+              
+              <h3 class="text-light" style="font-size:25px;">{{ivacount}}</h3>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</a>
+</div>
+<div class="row" style="padding-top:20px;">
+  <div class="col-sm-6 grid-margin">
+    <a href="{% url 'accounts_internship_viewbydate' %}" style="text-decoration: none">
+    <div class="card" style="height: 180px">
+        <div class="card-body">         
+          <div class="row" style="padding-top:50px;">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">               
+                  <h3 class="mb-0" style="color:white;">View Date</h3>                               
+              </div>            
+            </div>
+            <div class="col-4 col-sm-12 col-xl-2 text-center text-xl-right">
+             
+              <span class="text-light" style="font-size:25px;">{{ivdcount}}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  {% endblock %}

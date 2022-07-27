@@ -1,0 +1,94 @@
+{% extends 'index_accounts.html' %} {%load static%} {%block content%}
+
+<div class="row">
+    <div class="col-12 grid-margin table1">
+        <div class="card res">
+            <div class="card-body">
+                <h4 class="card-title">Internship Details</h4>
+                <input type="text" class="form-control " onkeyup="myFunction()" id="search" name="search" autocomplete="off" placeholder="Search...">
+                <br>
+                <div class="table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> Id </th>
+                                <th> Full Name </th>
+                                <th> Reg date</th>
+                                <th> College Name </th>
+                                <th> Reg No</th>
+                                <th> Course </th>
+                                <th> Stream </th>
+                                <th> Platform </th>
+                                <th> Start Date </th>
+                                <th> End Date </th>
+                                <th> Mobile </th>
+                                <th> Alternative Mobile </th>
+                                <th> Email </th>
+                                <th> Rating </th>
+                                <th> Hr Manager </th>
+                                <th> Guide </th>
+                                <th> Profile Pic </th>
+                                <th> Attached File </th>
+                                <th> Update</th>
+                                <th> Certificate</th>
+                                <th> Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% for i in empid %}
+                            <tr>
+                                <td>{{forloop.counter }}</td>
+                                <td>
+                                    <img src="{{i.profile_pic.url}}" alt="image" />
+                                    <span class="ps-2">{{i.fullname}}</span>
+                                </td>
+                                <td> {{i.reg_date|date:"d-m-Y"}}</td>
+                                <td> {{i.collegename }} </td>
+                                <td> {{i.reg_no }} </td>
+                                <td> {{i.course }}</td>
+                                <td> {{i.stream}} </td>
+                                <td> {{i.platform}} </td>
+                                <td>{{i.start_date}} </td>
+                                <td> {{i.end_date}} </td>
+                                <td> {{i.mobile}} </td>
+                                <td> {{i.alternative_no}} </td>
+                                <td> {{i.email}} </td>
+                                <td> {{i.rating}} </td>
+                                <td> {{i.hrmanager}}</td>
+                                <td> {{i.guide}} </td>
+                                <td>
+                                    <a href="{{i.profile_pic.url}} " download="{{i.fullname}}">
+                                        <div class="badge badge-outline-success">Download</div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{i.attach_file.url}} " download="{{i.fullname}}">
+                                        <div class="badge badge-outline-success">Download</div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'accounts_internship_update' i.id %}">
+                                        <div class="badge badge-outline-warning">Update</div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'pdf' i.id %}">
+                                        <div class="badge badge-outline-success">Download</div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'accounts_interndelete' i.id %}">
+                                        <div class="badge badge-outline-danger">Delete </div>
+                                    </a>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

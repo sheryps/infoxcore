@@ -1,0 +1,73 @@
+{% extends 'promanagerindex.html'%}
+{% load static %}
+{% block content%}
+<style>
+  @media (max-width:992px) {
+    #log {
+      max-width: 100px;
+      margin-top: 12px;
+      margin-left: 25px;
+      margin-right: 15px;
+    }
+  }
+</style>
+
+<div class="container d-flex justify-content-center" >  
+  <div class="col-12 grid-margin">
+      <div class="card">
+          <div class="card-body">
+            <h3 class="card-title text-muted">Project Details</h3>
+            <div class="row">
+                <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <center>
+                                <img class="img-sm rounded-circle " src="{{pro_data.files.url}}" alt="">
+                            </center>
+                            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                    <center><h4 class="mb-0">{{pro_data.project}}</h4></center>
+                                </div>
+                            </div>
+                            <center>
+                                <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <h6 class="mb-0">Start Date :</h6>
+                                    </div>
+                                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <h6 class="font-weight-bold mb-0">{{pro_data.startdate|date:"d-m-Y"}}</h6>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <h6 class="mb-0">Due Date :</h6>
+                                    </div>
+                                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <h6 class="font-weight-bold mb-0">{{pro_data.enddate|date:"d-m-Y"}}</h6>
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                    <center><h4 class="mb-0">Description</h4></center>
+                                </div>
+                            </div>
+                            <p style="text-align:center">{{pro_data.description}}</p>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <button type="submit" class="btn btn-primary" style="float: right;max-width: 100px;margin-right:70px" ><a href ="{% url 'current_modules' pro_data.id %}" style="text-decoration:none;color:white;">view</a></button>
+        </div>
+    </div>
+</div>
+{% endblock%}

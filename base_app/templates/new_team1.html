@@ -1,0 +1,89 @@
+{%extends 'index_trainingmanager.html'%} {% load static %} {% block content %}
+<style>
+    .dropdown-item:hover {
+        color: #f4f4f8;
+    }
+</style>
+
+<div class="row">
+  <form action="/newteamcreate/ " method="post" autocomplete="off">
+    {%csrf_token%}
+    
+        <div class="card" >
+            <div class="card-body">
+              
+                <div class="dropdown">
+                    <label style="font-size: large; margin-top: 50px" class="col-12 col-sm-4 col-md-4 col-lg-4  ">Select Trainer</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <select class="badge badge-outline-primary bg-dark text-light ml-2"name="trainer" >
+              {%for var in var%}
+              <option style="display: none;">Trainer</option>
+              <option value="{{var.id}}">{{var.fullname}}</option>
+              {%endfor%}
+            </select>
+          </div>
+          <br>
+          
+          
+          <div class="form-group row">
+            <label class="col-12 col-sm-4 col-md-4 col-lg-4 ml-3 " for="exampleInputUsername2" class="col-sm-3 col-form-label"required >Team Name</label
+            >
+            <div class="col-sm-6">
+              <input type="text"class="form-control text-light text-center"id="exampleInputUsername2" name="team"required/>
+            </div>
+          </div>
+       
+          <div class="form-group row">
+            <label for="exampleInputUsername2" class="col-12 col-sm-4 col-md-4 col-lg-4 ml-3">Start Date</label>
+            <div class="col-sm-6">
+                <input type="date" class="form-control text-light" name="startdate"id="from" >
+            </div>
+        </div>
+         <div class="form-group row">
+            <label for="exampleInputUsername2" class="col-12 col-sm-4 col-md-4 col-lg-4 ml-3">end Date</label>
+            <div class="col-sm-6">
+                <input type="date" class="form-control text-light" name="enddate"id="to" >
+            </div>
+         </div>
+         <br>
+          <div class="form-group row">
+            
+              
+              <center><button onclick="return confirm('Are you sure ?');" type="Submit" class="btn btn-outline-primary btn-icon-text ">
+                <i class="mdi mdi-file-check btn-icon-prepend"></i>
+                Submit
+              </button></center>
+            
+          </div>
+        </div>
+      
+    </div>
+  
+    {%if msg%}
+    <h5 style="text-align:center">{{msg}}</h5>
+    {%endif%}
+  </form>
+  </div>
+  <script language="javascript">
+     var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+      
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#to').attr('min',today);
+  </script>
+<script>
+  //js for submit button in new_team.html page
+  function redirect() {
+      window.location.href = "/new_team";
+  }
+  // js for delete button in new_team1.html page 
+  function confirmation() {
+      var result = confirm("Are you sure...?");
+      if (result) {
+          // Delete logic goes here 
+      }
+  }
+</script>
+
+{%endblock%}

@@ -1,0 +1,86 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<div class="row mt-3 justify-content-center">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <form>
+                <div class="input-group input-group-sm mb-3">
+                  <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+              title="Type in a name" style="color:white;">
+                
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table " id="myTables">
+              <thead>
+                <tr>
+                  <th> SlNo </th>
+                  <th> Name </th>
+                  <th> Designation</th>
+                  <th> Department</th>
+                  <th> Date from</th>
+                  <th> Date To </th>
+                  <th> Reason </th>
+                  <th> Leave </th>
+
+
+              </tr>
+          </thead>
+          <tbody>
+              {% if names %} {%for t in names %}
+
+
+              <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>                                   
+                      <img src="{{media_url}}{{ t.user.photo.url }}"> 
+                      <span class="ps-2">{{t.user.fullname}}</span>
+                  </td>
+                  <td> {{t.user.designation.designation}}</td>
+                  <td> {{t.user.department.department}}</td>
+                  <td> {{t.from_date|date:"d-m-Y"}}</td>
+                  <td> {{t.to_date|date:"d-m-Y"}} </td>
+                  <td> {{t.reason}} </td>
+                  <td> {{t.leave_status}} </td>
+
+                 
+              </tr>
+
+              {% endfor %}{% else %}
+              <h5>Nothing to display...</h5>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      function myFunction() {
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTables");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      
+  </script>
+  

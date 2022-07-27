@@ -1,0 +1,68 @@
+{% extends 'promanagerindex.html' %}
+{% load static %}
+{% block content %}
+<html>
+<title>Search TL</title>
+<style>
+    input[type=text],
+    input[type=text]:focus {
+        background-color: #2a3038;
+    }
+</style>
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 grid-margin stretch-card">
+        <div class="card" style="height: 180px">
+            <div class="card-body col-12 col-lg-10">
+                <h2>Search</h2><br>
+
+                <select class="badge badge-outline-primary bg-dark text-light col-lg-6" id="proj_data" name="tl_id"
+                    required>
+                    <option style="display: none" value="">---- Select TL ----</option>
+                    {% for i in tl_data %}
+                    <option value="{{i.id}}">{{i.fullname}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" style="float: right;" class="btn btn-outline-primary btn-icon-text "
+                    id="btnSearch">
+                    <i class="mdi mdi-file-check btn-icon-prepend"></i> Search
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <div id="hiddendiv" class="mt-5">
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#btnSearch").click(function () {
+        const deptId = $("#proj_data").val();
+        console.log(deptId);
+        $.ajax({
+            url: '{% url "pm_employees_att" %}',
+            data: {
+                'dept_id': deptId
+            },
+            success: function (data) {
+                $("#hiddendiv").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block ";
+    }
+</script>
+{% if msg_success %}
+<script>
+    alert('{{ msg_success }}')
+    javascript: history.go(-2);
+</script>
+{% endif %}
+{% endblock %}

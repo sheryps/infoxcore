@@ -1,0 +1,89 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="row mt-3 justify-content-center">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <form>
+                <div class="input-group input-group-sm mb-3">
+                  <input type="text" class="form-control text-light" id="myInput"placeholder="Search for names.."
+              title="Type in a name" style="color:white;">
+  
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table " >
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Task</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Submitted Date</th>
+                  <th>Git Link</th>
+                  <th>Progress</th>
+                  <th>Delay </th>
+                </tr>
+              </thead>
+              <tbody id="myTable">
+                {% for i in names %}
+                <tr>
+                  <td>{{i.project}}</td>
+                  <td>{{i.task}}</td>
+                  <td>{{i.startdate|date:'d-m-Y'}}</td>
+                  <td>{{i.enddate|date:'d-m-Y'}}</td>
+                  <td>{{i.submitted_date|date:'d-m-Y'}}</td>
+                  <td><a href="{{i.git_link}}" target="_blank" style="text-decoration: none;">
+                    <div class="badge badge-outline-success">Link</div>
+                  </a></td>
+                  <td>
+                    <div class="progress" style="height:20px;">
+                        <div class="progress-bar" style="height:20px;width:{{i.progress}}%">{{i.progress}}%</div>
+                    </div>
+                  </td>
+                    <td id="loop"><div class="badge badge-outline-danger">
+                        {% if i.delay %}
+                        {{i.delay}}
+                        {% else %} 0
+                        {% endif %}</div></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                <td colspan="7">Total Delay of Selected days</td>
+                  <td><div class="badge badge-outline-danger" id="total">{{a}}</div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+      $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+//       $(function() {
+
+//       var TotalValue = 0;
+
+//       $("tr #loop").each(function(index,value){
+//          currentRow = parseFloat($(this).text());
+//          TotalValue += currentRow
+//       });
+
+//       document.getElementById('total').innerHTML = TotalValue;
+
+// });
+  </script>
+  

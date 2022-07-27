@@ -1,0 +1,75 @@
+{% extends 'index_accounts.html' %} {% load static %} {% block content %}
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+</style>
+
+<div class="row" style="padding-top:50px; ">
+    <div class="col-sm-2"></div>
+
+
+
+
+    <div class="col-sm-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body" style="height:auto;padding-top:30px; ">
+                <br>
+                <center>
+                    <h3 class="card-title">Add Paymenthead</h3>
+                </center>
+                <br><br>
+
+                <form class="forms-sample" action="" method='post'>
+
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Paymenthead</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="paymenthead" class="form-control text-light"
+                                id="exampleInputStartdate" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea name="description" class="form-control text-light" class="form-control"
+                                id="exampleFormControlTextarea1" rows="6" required></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-5">
+                        <center>
+                            <button type="Submit" class="btn btn-outline-primary btn-icon-text"><i
+                                    class="mdi mdi-file-check btn-icon-prepend"></i>
+                                Submit </button>
+                        </center>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if msg_success %}
+<script>
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: '{{ msg_success }}',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(function () {
+        javascript: history.go(-2);
+    })
+</script>
+{% endif %}
+
+
+
+
+
+{%endblock%}

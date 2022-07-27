@@ -1,0 +1,47 @@
+{%extends 'index_accounts.html'%}
+{% load static %}
+{% block content %}
+
+    
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card mt-3 mb-5">
+                <div class="card-body" >
+                  
+                    <div class="table-responsive">
+                        <table class="table" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-white ">From Date</th>
+                                    <th class="text-white ">To Date</th>
+                                    <th class="text-white " >Working Days</th> 
+                                    <th class="text-white ">Holidays</th>
+                                    <th class="text-white ">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <br>
+                            {% for i in mem %}
+                                <tr>
+                                    
+                                    
+                                    <td> {{i.month_fromdate|date:"d-m-Y"}}</td>
+                                    <td>  {{i.month_todate|date:"d-m-Y"}}</td>
+                                    <td> {{i.month_workingdays}}</td>
+                                    <td>  {{i.month_holidays}}</td>
+                                    <td>  <a onclick="return confirm('Are you sure?')"  href="{% url 'accounts_month_viewdays_delete' i.id %}"  class="btn btn-outline-danger btn-icon-text" >Delete </a></td>
+                                    
+                                </tr>
+                                {% endfor %}
+                                
+    
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    {% endblock %}

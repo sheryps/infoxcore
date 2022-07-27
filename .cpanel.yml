@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/apgbadgk6j6n/repositories/infoxcore_subwork
+    - /bin/cp * $DEPLOYPATH

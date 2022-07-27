@@ -1,0 +1,105 @@
+{%extends 'index_accounts.html'%} {% load static %} {% block content %}
+
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Select Department</label>
+                    <select class="form-control" id="dept_id" style="color:white;" name="Department">
+                        <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                        {% for i in dep %}
+                        <option value="{{i.id}}">{{i.department}}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="row mt-2 ">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                        <div class="form-group row ">
+                            <label class="col-4 col-sm-4 col-md-6 col-lg-6 col-form-label ">FROM</label>
+                            <div class="col-8 col-sm-8 col-md-6 col-lg-6 ">
+                                <input type="Date" class="form-control text-light " name="start " id="txtDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                        <div class="form-group row ">
+                            <label class="col-4 col-sm-4 col-md-6 col-lg-6 col-form-label ">TO</label>
+                            <div class="col-8 col-sm-8 col-md-6 col-lg-6 ">
+                                <input type="Date" class="form-control text-light" name="start " id="txtDate1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-check form-check-flat form-check-primary">
+                    <center>
+                        <button type="submit" class="btn btn-primary  me-2" id="btnSearch">Submit</button>
+                    </center>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="hiddendiv"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;    
+    $('#txtDate').attr('max', maxDate);
+    $('#txtDate1').attr('max', maxDate);
+});
+   
+</script>
+
+<script type="text/javascript ">
+
+    $("#btnSearch").click(function() {
+        const dept_id = $("#dept_id").val();
+        const fdate = $("#txtDate").val();
+        const tdate = $("#txtDate1").val();
+       
+        $.ajax({
+            url: '{% url "accounts_salaryexpense_ajax" %}',
+            
+            data: {
+
+                'dept_id': dept_id,
+                'fdate': fdate,
+                'tdate': tdate,
+            
+            },
+
+            success: function(data) {
+                $("#hiddendiv").html(data);
+            }
+        });
+    });
+
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block ";
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{%extends 'index_accounts.html'%}
+{% load static %}
+{% block content %}
+
+    
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card mt-3 mb-5">
+                <div class="card-body" >
+                    <form>
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control text-white" id="myInput"  placeholder="Search" />
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th class="text-white " >Name</th> 
+                                    <th class="text-white ">Account Number</th>
+                                    <th class="text-white ">Basic Salary</th>
+                                    <th class="text-white ">Net Salary</th>
+                                    <th class="text-white ">HRA</th> 
+                                    <th class="text-white ">Conveyns</th>
+                                    <th class="text-white ">Professional Tax</th>
+                                    <th class="text-white ">Incentives</th>
+                                    <th class="text-white ">DA</th>
+                                    <th class="text-white ">pf</th>
+                                    <th class="text-white ">Esi</th>
+                                    <th class="text-white ">Project Delay</th>
+                                    <th class="text-white ">Common Leave</th>
+                                      
+                                </tr>
+                            </thead>
+                            <tbody id="myTable">
+                            <br>
+                             {% for i  in usk %}
+                                <tr>
+                                    
+                                   
+                                       
+                                   
+                                        
+                                    <td  >
+                                        {{mem1.fullname}}
+                                    </td>
+                                    
+                                    
+                                   
+                                    
+                                    <td>  {{i.account_no}}</td>
+                                    
+                                   
+                                    <td> {{i.basic_salary}}</td>
+                                    <td> {{i.net_salary}}</td>
+                                    <td>  {{i.hra}}</td>
+                                    <td> {{i.conveyns}}</td>
+                                    <td>  {{i.pf_tax}}</td>
+                                    <td>  {{i.incentives}}</td>
+                                    <td>  {{i.da}}</td>
+                                    <td>  {{i.pf}}</td>
+                                    <td>  {{i.esi}}</td>
+                                    <td>  {{i.delay}}</td>
+                                    <td>  {{i.leavesno}}</td>
+                                </tr>
+                                    {% endfor %}
+                                
+                                
+    
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+       $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+        </script>
+    {% endblock %}

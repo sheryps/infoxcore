@@ -1,0 +1,92 @@
+{% extends 'BRadmin_index.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Task </h4>
+        <div class="form-group">
+          <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for task.."
+            title="Type in a name" style="color:white;">
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="myTable">
+            <thead>
+              <tr class="header">
+
+                <th> Name </th>
+                <th> Task </th>
+                <th> Start Date </th>
+                <th> End Date </th>
+                <th> Submitted Date </th>
+                <th> Delay </th>
+                <th> Trainer File </th>
+                <th> Trainee File </th>
+                <th> Status </th>
+                
+
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in task_data %}
+              <tr>
+                <td>
+                  <img src="{{ i.user.photo.url }}" />
+                  <span class="ps-2">{{ i.user.fullname }}</span>
+                </td>
+                <td> {{ i.taskname }} </td>
+                <td> {{ i.startdate|date:"d-m-Y" }} </td>
+                <td> {{ i.enddate|date:"d-m-Y" }} </td>
+                <td> {{ i.submitteddate|date:"d-m-Y" }} </td>
+                  <td><div class="badge badge-outline-danger">{{ i.delay}}</div></td>
+                <td>  <div class="col-6 col-sm-6 col-md-6 col-lg-6 mt-1">
+                          <a href="{{i.files.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                          style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2;font-size: 15px; font-weight: 100;" download>Download</a>
+                      </div> </td>
+                <td>  <div class="col-6 col-sm-6 col-md-6 col-lg-6 mt-1">
+                          <a href="{{i.files.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                          style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2;font-size: 15px; font-weight: 100;" download>Download</a>
+                      </div> </td>
+                <td> {% if i.task_status == "1" %}
+                              <div class="badge badge-outline-success">Completed</div>
+                            {% else %}
+                               <div class="badge badge-outline-danger">Incomplete</div>
+                            {% endif %} 
+                            </td>
+                          
+                              
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+{% endblock %}

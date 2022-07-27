@@ -1,0 +1,127 @@
+{% extends 'promanagerindex.html' %} 
+{% load static %} 
+{% block content %}
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                
+                
+                    <div class="form-group">
+                        <label>Select Designation</label>
+                        <select class="form-control" id="proj_data" style="color:white;" name="project">
+                            <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                            {% for i in project_data %}
+                            <option value="{{i.id}}">{{i.designation}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select class="form-control" id="empname" style="color:white;" name="emp">
+                        </select>
+                    </div>
+                    <div class="row mt-0 ">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                            <div class="form-group row ">
+                                <label class="col-4 col-sm-4 col-md-4 col-lg-4 col-form-label ">FROM</label>
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 ">
+                                    <input type="Date" class="form-control text-light " name="start " id="txtDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                            <div class="form-group row ">
+                                <label class="col-4 col-sm-4 col-md-4 col-lg-4 col-form-label ">TO</label>
+                                <div class="col-8 col-sm-8 col-md-8 col-lg-8 ">
+                                    <input type="Date" class="form-control text-light" name="start " id="txtDate1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" style="float: right;" class="btn btn-outline-primary btn-icon-text" id="btnSearch">
+                        <i class="mdi mdi-file-check btn-icon-prepend"></i> Search 
+                    </button>
+                    
+                    
+                </div>
+            
+            </div>
+        </div>
+</div>
+
+<div id ="hiddendiv">
+
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $("#proj_data").change(function () {
+        const deptId = $(this).val();
+        console.log(deptId);
+        $.ajax({
+            url: '{% url "pm_employeelist" %}',
+            data: {
+                'dept_id': deptId
+            },
+            success: function (data) {
+                $("#empname").html(data);
+                
+            }
+        });
+
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#btnSearch").click(function() {
+        const desId = $("#empname").val();
+        const from_date = $("#txtDate").val();
+        const to_date = $("#txtDate1").val();
+        console.log(desId);
+        $.ajax({
+            url: '{% url "pm_employees_attendance_view" %}',
+            data: {
+                'des_id': desId, 'from_date':from_date, 'to_date':to_date
+            },
+            success: function (data) {
+                $("#hiddendiv").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+    function showDiv() {
+    document.getElementById('hiddendiv').style.display = "block ";
+}
+</script>
+{% if msg_success %}
+    <script>
+        alert('{{ msg_success }}')
+        javascript: history.go(-2);
+    </script>
+    {% endif %}
+    <script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+   dd = '0' + dd;
+}
+
+if (mm < 10) {
+   mm = '0' + mm;
+} 
+    
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("txtDate1").setAttribute("max", today);
+document.getElementById("txtDate").setAttribute("max", today);
+</script>
+
+{% endblock %}

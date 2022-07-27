@@ -1,0 +1,23 @@
+def DEVpayments(request):
+    if request.session.has_key('devid'):
+        devid = request.session['devid']
+    else:
+        variable = "dummy"
+    dev = user_registration.objects.filter(id=devid)
+    mem1 = user_registration.objects.get(id=devid)
+    var = acntspayslip.objects.filter(user_id =devid)
+    return render(request, 'DEVpayments.html', {'dev': dev, 'var': var,'mem1':mem1})
+    
+    
+def TLpayment(request):
+   if 'tlid' in request.session:
+        if request.session.has_key('tlid'):
+            tlid = request.session['tlid']
+        else:
+            variable="dummy"
+        mem = user_registration.objects.filter(id=tlid)
+        mem1 = user_registration.objects.get(id=tlid)
+        var = acntspayslip.objects.filter(user_id =tlid)
+        return render(request, 'TLpayment.html', {'mem': mem, 'var': var,'mem1':mem1})
+   else:
+        return redirect('/')

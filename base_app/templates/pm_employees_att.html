@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12 col-sm-2 col-sm-2 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-8 col-md-8 col-lg-8 grid-margin">
+        <div class="card" style="height:380px;">
+            <div class="card-body" style="height:auto;padding-top:30px; "><br>
+                <center>
+                    <h3 class="card-title">Add Attendance Of <i>{{Desig.fullname}}</i></h3>
+                </center><br><br>
+                <form action="/pm_add_attendance/{{Desig.id}}/" class=" form-sample" method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-12 col-sm-4 col-md-4 col-lg-4">
+                            <label for="text" style="padding-left: 30px;">Select Date ::</label>
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-8 col-lg-8">
+                            <input type="date" id="txtDate" name="date" class="form-control text-light"id="exampleInputStartdate" required>
+                        </div>
+                    </div><br />
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-12 col-sm-4 col-md-4 col-lg-4"></div>
+                                <div class="col-12 col-sm-8 col-md-8 col-lg-8 ">
+                                    <label for="Precent" style="font-size:17px;">Present</label>
+                                    <input type="radio" name="pres" value="1" style="font-size:19px;" required>&nbsp;&nbsp;&nbsp;
+                                    <label for="Absent" style="font-size:17px;">Absent</label>
+                                    <input type="radio" name="pres" value="0" style="font-size:19px;" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-5">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group row">
+                                <div>
+                                    <center>
+                                        <button type="Submit" class="btn btn-outline-primary btn-icon-text">
+                                            <i class="mdi mdi-file-check btn-icon-prepend"></i>Submit
+                                        </button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var dtToday = new Date();
+    var dtToday = new Date();
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if (month < 10)
+        month = '0' + month.toString();
+    if (day < 10)
+        day = '0' + day.toString();
+    var maxDate = year + '-' + month + '-' + day;
+    document.getElementById("txtDate").setAttribute("max", maxDate);
+    document.getElementById("txtDate1").setAttribute("max", maxDate);
+
+
+
+</script>
+{% if msg_success %}
+    <script>
+        alert('{{ msg_success }}')
+        javascript: history.go(-2);
+    </script>
+    {% endif %}

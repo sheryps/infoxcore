@@ -1,0 +1,92 @@
+{%extends 'index_accounts.html'%}
+{% load static %}
+{% block content %}
+
+<style>
+    table tr[data-href] {
+        cursor: pointer;
+    }
+</style>
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4>PaymentHead</h4>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                        <form>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" id="myInput" placeholder="Search for names.."
+                                    title="Type in a name" style="color:white;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- table start hear -->
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+
+                            <tr data-href="#">
+                                <th> Slno </th>
+                                <th> PaymentHead</th>
+                                <th> Description </th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% if vars %} {% for t in vars %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{t.payment_head}}</td>
+                                <td> {{t.description_paymenthead}} </td>
+                                <td>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="paymenthead" value="{{t.id}}">
+                                        <button onclick="return confirm('Are you sure?')" type="submit" name="submit"
+                                            class="btn btn-outline-danger btn-icon-text">Delete </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {%endfor%}
+
+                            {% else%} <h5>Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if msg_success %}
+<script>
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: '{{ msg_success }}',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(function () {
+        javascript: history.go(-2);
+    })
+</script>
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+{%endblock%}

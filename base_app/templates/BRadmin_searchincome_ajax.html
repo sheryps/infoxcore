@@ -1,0 +1,84 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4>Income</h4>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                        <form>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" id="myInput" placeholder="Search for names.."
+                                    title="Type in a name" style="color:white;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- table start hear -->
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+
+                            <tr data-href="#">
+                                <th> Slno </th>
+                                <th> Pay Date</th>
+                                <th> Party Name </th>
+                                <th> Pay Type </th>
+                                <th> Type of Income </th>
+                                <th> Department </th>
+                                <th> Description </th>
+                                <th> Amount </th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% if inc %} {% for t in inc %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{t.pay_date|date:'d-m-Y'}}</td>
+                                <td> {{t.party_name}} </td>
+                                <td> {{t.pay_method}} </td>
+                                <td> {{t.payment_head.payment_head}} </td>
+                                <td> {{t.department.department}} </td>
+                                <td> {{t.pay_description}} </td>
+                                <td>
+                                    <div class="badge badge-outline-success">
+                                        {{t.amount}}
+                                    </div>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                            <tr>
+                                <td colspan="7">
+                                    Total Income of selected Dates
+                                </td>
+                                <td>
+                                    <div class="badge badge-outline-success">
+                                       {{tot}}
+                                    </div>
+                                </td>
+                            </tr>
+
+                            {% else%} <h5>Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

@@ -1,0 +1,98 @@
+{% extends 'index_accounts.html' %} {% load static %} {% block content %}
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h3>Leave List</h3>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <form>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()"
+                                    placeholder="Search for names.." title="Type in a name" style="color:white;">
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table " id="myTables">
+                        <thead>
+                            <tr data-href="#">
+                                <th>SlNo</th>
+                                <th>Name</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% comment %} data-href="/account_payment_details" {% endcomment %}
+                            {% for i in var %}
+                            <tr data-href="#">
+                                <td>{{ forloop.counter}}</td>
+
+                                <td>
+                                  {{i.user.fullname}}
+                                </td>
+                                <td>{{i.from_date|date:'d-m-Y'}}</td>
+                                <td>{{i.to_date|date:'d-m-Y'}}</td>
+                                <td>{{i.reason}}</td>
+                                {%if i.leave_status == 'half Day' %}
+                                <td style="color:green;">{{i.leave_status}}</td>
+                                {% else %}
+                                <td style="color:red;">{{i.leave_status}}</td>
+                                 
+                                {% endif%}
+
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTables");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+
+    $(document).ready(function () {
+        $('table tr').click(function () {
+            window.location = $(this).data('href');
+            return false;
+        });
+    });
+</script>
+
+
+
+
+
+{%endblock%}

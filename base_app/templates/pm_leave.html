@@ -1,0 +1,69 @@
+
+<div class="row mt-3 justify-content-center">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+              <form>
+                <div class="input-group input-group-sm mb-3">
+                  <input type="text" class="form-control text-light" id="myInput" onkeyup="myFunction()" placeholder="Search for names.."
+              title="Type in a name" style="color:white;">
+  
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table " id="myTables">
+              <thead>
+                <tr>
+                  <th>From Date</th>
+                  <th>To Date</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% if names %}
+                {% for i in names %}
+                <tr>
+                  <td>{{i.from_date|date:'d-m-Y'}}</td>
+                  <td>{{i.to_date|date:'d-m-Y'}}</td>
+                  <td>{{i.reason}}</td>
+                  <td>
+                      {% if i.leaveapprovedstatus == '1' %}
+                    <div class="badge badge-outline-success">Approved</div>
+                    {%else%}
+                    <div class="badge badge-outline-warning">Pending</div>
+
+
+
+                  {% endif %}</td>
+                  
+                  
+                </tr>
+                {% endfor %}
+               
+              {% else %}
+              <h5>Nothing to display...</h5>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>

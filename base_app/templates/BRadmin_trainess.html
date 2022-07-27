@@ -1,0 +1,9 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<option value="" >-- Not Selected --</option>
+{% for desig in Desig %}
+<option value="{{ desig.id }}">{{ desig.fullname }}</option>
+{% endfor %}
+<option value="" disabled>-- Developer workd when training --</option>
+{% for desig in Desig1 %}
+<option value="{{ desig.id }}">{{ desig.fullname }}</option>
+{% endfor %}

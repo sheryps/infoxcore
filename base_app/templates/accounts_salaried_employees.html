@@ -1,0 +1,93 @@
+{%extends 'index_accounts.html'%}
+{% load static %}
+{% block content %}
+
+<style>
+    table tr[data-href] {
+        cursor: pointer;
+    }
+</style>
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card res">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4>Employes List</h4>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                        <form>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"
+                                    placeholder="Search for names.." title="Type in a name" style="color:white;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- table start hear -->
+
+                <div class="table">
+                    <table class="table " id="myTable">
+                        <thead>
+
+                            <tr data-href="#">
+                                <th > SlNO </th>
+                                <th > Name </th>
+                                <th > Email</th>
+                                <th > Designation </th>
+                                <th > Department </th>
+                                <th > Date of Joined </th>
+                                <th>Salary</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% if vars %}  {% for t in vars %}
+                            <tr data-href="#">
+                                <td> {{forloop.counter}}</td>
+                                <td>
+                                    <img src="{{t.photo.url}}" alt="image" />
+                                    <span class="ps-2">{{t.fullname}}</span>
+                                </td>
+                                <td> {{t.email}}</td>
+                                <td >{{t.designation.designation}}</td>
+
+                                <td> {{t.department.department}} </td>
+                                <td >{{t.joiningdate|date:"d-m-Y"}} </td>
+                                <td>{{t.confirm_salary}}</td>
+                            </tr>
+                            {% endfor %}
+                           
+                            {% else%} <h5>Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
+{%endblock%}

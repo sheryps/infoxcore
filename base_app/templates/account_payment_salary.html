@@ -1,0 +1,349 @@
+{%extends 'index_accounts.html'%} {% load static %} {% block content %}
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+</style>
+
+<div class="row mt-3">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <center>SALARY DETAILS</center>
+                </h2>
+                <div class="form-group row">
+                    <label for="name" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Name</label>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                        {{vars.fullname}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="bank" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Bank Name</label>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                        {{vars.bank_name}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="bank" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Account Number</label>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                        {{vars.account_no}}
+                    </div>
+                </div>
+                <form method="post" id="salary_form" >
+                    {% csrf_token %}
+
+                    <div class="form-group row">
+                        <label for="ef" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Effective from</label>
+                        <div class="col-6 col-sm-6 col-md-6 col-lg-2">
+                            <input type="date" class="form-control text-light" id="ef" name="efdate" required>
+                        </div>
+                        <br>
+                        <label for="ef" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Effective to</label>
+                        <div class="col-6 col-sm-6 col-md-6 col-lg-2">
+                            <input type="date" class="form-control text-light" id="ef1" name="efdate" required>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <label for="bank" class="col-6 col-sm-4 col-md-4 col-lg-2 col-form-label">Confirm Salary</label>
+                        <div class="col-6 col-sm-6 col-md-6 col-lg-6" >
+                            {{vars.confirm_salary}}
+                        </div>
+                    </div><br>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-dark ">
+                            <thead>
+                                <tr>
+                                    <th style="color:white;"> PAY HEAD </th>
+                                    <th style="color:white;"> PAY</th>
+                                    <th style="color:white;"> PAY HEAD TYPE </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color:white;">BASIC SALARY</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="salary" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="basictype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;"> HRA </td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="hra" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light form-control text-light"
+                                            name="hratype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;"> OTHER ALLOWANCE </td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="other_allowance" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light form-control text-light"
+                                            name="other_allowance_type">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;">PF</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="pf" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="pftype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;">ESI</td>
+
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="esi" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="esitype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;">CONVEYENCE ALLOWANCE</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="ca" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="contype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;"> PROFESSIONAL TAX</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="pt" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="protype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;">INCENTIVE</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="ins" id="incentive" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="instype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white;"> DA</td>
+                                    <td>
+                                        <input type="number" class="form-control text-light"
+                                            style="width: 26rem;height: 2rem;" name="DA" value="0">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="deltype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-light"> LEAVE(delay in project) </td>
+                                    <td>
+                                        <input class="form-control text-light" style="width: 26rem;height: 2rem;"
+                                            name="leaves" id="empname" type = "number">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="leatype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-light"> LEAVE(common leave) </td>
+                                    <td>
+                                        <input class="form-control text-light" style="width: 26rem;height: 2rem;"
+                                            name="commonleaves" id="commonleave" type = "number">
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-control text-light" name="leatype">
+                                            <option>Deduction for Employee</option>
+                                            <option>Earning for Employee</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-light"> Net salary</td>
+                                    <td>
+                                        <input class="form-control text-light" style="background-color: #2A3038;width: 26rem;height: 2rem;"
+                                            name="net_salary" id="net_salary" readonly>
+                                    </td>
+                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                         <input type="hidden" id="work_day" value="0">
+                                    <input type="hidden" id="conf_salary" value="{{vars.confirm_salary}}">
+                                    <input type="hidden" id="net_sal" value="0" >
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button onclick="return confirm('Are you sure?')"  class="btn btn-primary me-md-2 btn-lg" type="submit">SAVE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><input type="hidden" id="his_id" value="{{vars.id}}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{%if msg %}
+<script>
+alert("{{ msg }}");
+history.back(-2);
+</script>
+{%endif%}
+
+<script type="text/javascript ">
+    $(document).ready(function () {
+        const work_day = $('#work_day').val();
+        console.log(work_day);
+        const conf_salary = $('#conf_salary').val();
+        console.log(conf_salary);
+
+  
+        $(document).on('change', '#ef1', function (e) {
+            const fdate = $("#ef").val();
+            const tdate = $(this).val();
+            var his_id  = document.getElementById("his_id").value;
+            $.ajax({
+                url: '{% url "accounts_salary_leave" %}',
+                data: {
+                    'fdate': fdate,
+                    'tdate': tdate,
+                    'his_id':his_id
+                },
+                dataType: 'json',
+                success: function (response) {
+                    var msg = response.msg;
+                    var msg_conf= response.msg_conf;
+                    if (msg != "please add month days") {
+                        $("#work_day").val(response.work_day);
+                        $("#empname").val(response.delay_total);
+                        $("#commonleave").val(response.k1);
+                        $("#net_salary").val(response.net_salary.toFixed(0));
+                        $("#net_sal").val(response.net_salary.toFixed(0));
+                    }
+                    else{
+                        alert(response.msg);
+                        history.back(-1);
+                    }
+                }
+            });
+        });
+        
+        
+        $(document).on('keyup', '#incentive', function (e) {
+            var conf_salary = parseInt($('#conf_salary').val());
+            var net_sal = parseInt($("#net_sal").val());
+            var incentive = parseInt($(this).val());
+            if (conf_salary == net_sal) {
+
+                var tot = conf_salary +incentive;
+                $("#net_salary").val(tot);
+            }
+            else{
+                var net_sal = parseInt($("#net_sal").val());
+                tot = incentive + net_sal;
+                console.log(tot);
+                $("#net_salary").val(tot);
+                $("#net_sal").val(tot);
+            }
+                
+
+        });
+        $(document).on('keyup', '#empname', function (e) {
+            const work_day = $('#work_day').val();
+            var conf_salary = $('#conf_salary').val();
+            var commonleave = $('#commonleave').val();
+            var empname = $(this).val();
+            var total_delay =Number(empname) + Number(commonleave);
+            console.log(work_day);
+            var one_day_sal = conf_salary / work_day;
+            console.log(one_day_sal);
+            var total_delay_amt = one_day_sal * total_delay;
+            console.log(total_delay_amt);
+            var net_salary = conf_salary - total_delay_amt;
+            console.log(net_salary);
+            if ( parseInt(net_salary) <= 0){
+                net_salary = 0;
+                $("#net_salary").val(net_salary);
+                $("#net_sal").val(net_salary.toFixed(0));
+            }
+            else{
+                $("#net_salary").val(net_salary.toFixed(0));
+                $("#net_sal").val(net_salary.toFixed(0));
+            }
+        });
+        $(document).on('keyup', '#commonleave', function (e) {
+            const work_day = $('#work_day').val();
+            var conf_salary = $('#conf_salary').val();
+            var commonleave = $(this).val();
+            var empname = $('#empname').val();
+            var total_delay = Number(empname) + Number(commonleave);
+            console.log(work_day);
+            var one_day_sal = conf_salary / work_day;
+            console.log(one_day_sal);
+            var total_delay_amt = one_day_sal * total_delay;
+            console.log(total_delay_amt);
+            var net_salary = conf_salary - total_delay_amt;
+            console.log(net_salary);
+            if (parseInt(net_salary) <= 0){
+                net_salary = 0;
+                $("#net_salary").val(net_salary);
+                $("#net_sal").val(net_salary.toFixed(0));
+            }
+            else{
+                $("#net_salary").val(net_salary.toFixed(0));
+                $("#net_sal").val(net_salary.toFixed(0));
+            }
+        });
+    });
+</script>
+
+
+{%endblock%}

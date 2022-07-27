@@ -1,0 +1,103 @@
+{%extends 'index_trainingmanager.html'%} {% load static %} {% block content %}
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Task</h4>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <form>
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control text-white" id="myInput" onkeyup="myFunction()" placeholder="Search . . ." style="border: green" />
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="text-white">Task</th>
+                                
+                                <th class="text-white">Start Date</th>
+                                <th class="text-white">End Date</th>
+                                <th class="text-white">Completed Date</th>
+                                <th class="text-white">Trainer File</th>
+                                <th class="text-white">Trainee File</th>
+                                <th class="text-white">Delay </th>
+                                <th class="text-white">Progress </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if var %} {%for i in var%}
+                            <tr >
+                               
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.taskname}}</a>
+                                    </td>
+                                    
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.startdate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.enddate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{i.submitteddate|date:"d-m-Y"}}</a>
+                                    </td>
+                                    <td>
+                                        {% if i.files %}
+                                        <div class="col-6 col-sm-6 col-md-6 col-lg-6 mt-1">
+                                            <a href="{{i.files.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                            style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2" style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if i.user_files %}
+                                        <div class="col-6 col-sm-6 col-md-6 col-lg-6 mt-1">
+                                            <a href="{{i.user_files.url}}" class="btn btn-outline-primary mdi mdi-format-vertical-align-bottom"
+                                            style="font-size: 15px;overflow: hidden  mr-2 ml-6 mt-2" style="font-size: 15px; font-weight: 100;" download>Download</a>
+                                        </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="#" style="text-decoration: none; color: #6c7293">{{ i.delay }}</a>
+                                    </td>
+                                
+                                    <td>
+                                        <div class="progress" style="height:20px;">
+                                            <div class="progress-bar" style="height:20px;width:{{i.progress}}%">{{i.task_progress}}%</div>
+                                        </div>
+                                    </td>
+                                    
+                            </tr>
+                            {% endfor %}{% else %}
+                            <h5 style="text-align:center">Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    {% endblock %}

@@ -1,0 +1,81 @@
+{%extends 'index_accounts.html'%}
+{% load static %} {% block content %}
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>{{i.designation}} List</h3>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control text-light" id="myInput" placeholder="Search for names.."
+            title="Type in a name" style="color:white;">
+
+                
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table " >
+            <thead>
+              <tr data-href="#">
+                <th>SlNo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Start Date</th>
+                <th>Department</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              {% comment %} data-href="/account_payment_details" {% endcomment %}
+              {% for i in use %}
+              <tr data-href="/account_payment_details/{{i.id}}/">
+                <td>{{ forloop.counter }}</td>
+                
+                <td>
+                  <img src="{{media_url}}{{i.photo.url}}" class="img-fluid rounded-circle " alt="image" >                    
+                    {{i.fullname}}</a>
+                </td>
+                <td>{{i.email}}</td>
+                <td>{{i.mobile}}</td>
+                <td>{{i.startdate|date:'d-m-Y'}}</td>
+                <td>{{i.department}}</td>
+
+                
+              </tr>
+              {% endfor %}
+              
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+   $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+    
+    
+  $(document).ready(function(){
+    $('table tr').click(function(){
+        window.location = $(this).data('href');
+        return false;
+    });
+});
+</script>
+
+{%endblock%}

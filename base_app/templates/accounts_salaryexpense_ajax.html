@@ -1,0 +1,116 @@
+
+<style>
+    table tr[data-href] {
+        cursor: pointer;
+    }
+</style>
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4>Salary Expense</h4>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                        <form>
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" id="myInput" placeholder="Search for names.."
+                                    title="Type in a name" style="color:white;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- table start hear -->
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+
+                            <tr data-href="#">
+                                <th> Slno </th>
+                                <th> Name</th>
+                                <th> Date</th>
+                                <th> Department</th>
+                                <th> Designation</th>
+                                <th> Confirmed Salary</th>
+                                <th> Incentive</th>
+                                <th> Net Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% if inc %} {% for t in inc %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td> {{t.user_id.fullname}} </td>
+                                <td>{{t.fromdate|date:'d-m-Y'}}</td>
+                                <td> {{t.user_id.department}} </td>
+                                <td> {{t.user_id.designation}} </td>
+                                <td><div class="badge badge-outline-success">{{t.user_id.confirm_salary}}</div>  </td>
+                                <td><div class="badge badge-outline-success">{{t.incentives}}</div>  </td>
+                                <td>
+                                    <div class="badge badge-outline-success">{{t.net_salary}}</div>
+                                </td>
+                            </tr>
+                            {%endfor%}
+
+                            {% else%} <h5>Nothing to display...</h5>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-lg-4 col-md-6 col-sm-12 sol-12  grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4>Total Profit</h4>
+                    </div>
+                </div>
+
+                <!-- table start hear -->
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+
+                            <tr data-href="#">
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3">Total Confirmed Salary</td>
+                                <td colspan="3"> <div class="badge badge-outline-success">{{conf}}</div></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Total Net Salary</td>
+                                <td colspan="3"> <div class="badge badge-outline-success">{{net_sal}}</div></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Final Amount</td>
+                                <td colspan="3"> <div class="badge badge-outline-success">{{tot_sum}}</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

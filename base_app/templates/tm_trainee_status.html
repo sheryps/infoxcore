@@ -1,0 +1,67 @@
+{%extends 'index_trainingmanager.html'%} {%load static%} {%block content%}
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                
+      {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Select Trainees</label>
+                        <select class="form-control" id="empname" style="color:white;" name="emp">
+                            <option value="" selected disabled>--Not Selected--</option>
+                            {% for i in var%}
+                            <option value="{{i.id}}">{{i.fullname}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                   
+
+                    
+
+                   <br>
+                    <div class="form-check form-check-flat form-check-primary">
+                        <center>
+                        <button type="button" class="btn btn-primary  me-2"  id="btnSearch" >Submit</button>
+                        </center>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="hiddendiv"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+<script type="text/javascript ">
+ $(document).ready(function() {
+    $("#btnSearch").click(function() {
+        const emp = $("#empname").val();
+       
+        console.log( emp);
+        $.ajax({
+            
+            url: '{% url "tm_trainee_details" %}',
+            data: {
+
+                'emp': emp,
+              
+            },
+
+            success: function(data) {
+                $("#hiddendiv").html(data);
+            }
+        });
+    });
+    });
+
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block ";
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,155 @@
+{%extends 'index_trainingmanager.html'%}
+{%load static%}
+{%block content%}
+
+
+<div class="row mt-5">
+    <div class="col-12 col-sm-1 col-md-2 col-lg-2"></div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label>Select Department</label>
+                        <select class="form-control" id="regdetailsDesig" style="color:white;" name="Department">
+                            <option selected="true" disabled="disabled" value="">-Not Selected-</option>
+                            {% for i in dep %}
+                            <option value="{{i.id}}">{{i.department}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Designation</label>
+                        <select class="form-control" style="color:white;" name="designation" id="designation">
+                           
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Select Employee</label>
+                        <select class="form-control" id="empname" style="color:white;" name="emp">
+                            
+                        </select>
+
+                    </div>
+
+                    <div class="row mt-0 ">
+                        <div class="col-12 col-sm-12 col-md-5 col-lg-5 ">
+                            <div class="form-group row ">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-5 col-form-label ">FROM</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 ">
+                                    <input type="Date" class="form-control text-light " name="start " id="txtDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 "></div>
+                        <div class="col-12 col-sm-12 col-md-5 col-lg-5 ">
+                            <div class="form-group row ">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-5 col-form-label ">TO</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 ">
+                                    <input type="Date" class="form-control text-light" name="start " id="txtDate1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-check form-check-flat form-check-primary">
+                        <center>
+                        <button type="submit" class="btn btn-primary  me-2"  id="btnSearch" >Submit</button>
+                        </center>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="hiddendiv"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+    $("#regdetailsDesig").change(function () {
+        const deptId = $(this).val();
+        console.log(deptId);
+        jQuery.ajax({
+            url: '{% url "tm_designation" %}',
+            data: {
+                'dept_id': deptId
+            },
+
+            success: function (data) {
+                $("#designation").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+
+    $("#designation").change(function () {
+        const deptId = $("#regdetailsDesig").val();
+        const desigId = $("#designation").val();
+        console.log(deptId,desigId);
+        jQuery.ajax({
+            url: '{% url "tm_emp_ajax" %}',
+            data: {
+                'dept_id': deptId,
+                'desigId':desigId,
+            },
+            success: function (data) {
+                $("#empname").html(data);
+                console.log(data);
+            }
+        });
+
+    });
+    $("#btnSearch").click(function() {
+        const emp = $("#empname").val();
+        const fdate = $("#txtDate").val();
+        const tdate = $("#txtDate1").val();
+        
+        $.ajax({
+            url: '{% url "tm_leave" %}',
+            
+            data: {
+
+                'emp': emp,
+                'fdate': fdate,
+                'tdate': tdate,
+            
+            },
+
+            success: function(data) {
+                $("#hiddendiv").html(data);
+            }
+        });
+    });
+ });
+    function showDiv() {
+        document.getElementById('hiddendiv').style.display = "block ";
+    }
+</script>
+<!-- <script>
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+   dd = '0' + dd;
+}
+
+if (mm < 10) {
+   mm = '0' + mm;
+} 
+    
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("txtDate1").setAttribute("max", today);
+</script> -->
+
+{% endblock %}
+

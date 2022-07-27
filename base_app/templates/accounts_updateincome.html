@@ -1,0 +1,134 @@
+{% extends 'index_accounts.html' %} {% load static %} {% block content %}
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+</style>
+
+<div class="row" style="padding-top:50px; ">
+    <div class="col-sm-2"></div>
+
+
+
+
+    <div class="col-sm-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body" style="height:auto;padding-top:30px; ">
+                <br>
+                <center>
+                    <h3 class="card-title">Update Income</h3>
+                </center>
+                <br><br>
+
+                <form class="forms-sample" action="" method='post'>
+
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" name="paydate" id="paydates" class="form-control text-light" required value="{{income_tab.pay_date|date:'Y-m-d'}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Party Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="pay_name" class="form-control text-light" required
+                                autocomplete="off" value="{{income_tab.party_name}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="number" name="pay_amount" class="form-control text-light" required
+                                autocomplete="off" value="{{income_tab.amount}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Type of Income</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" style="color:white;" name="pay_type">
+                                <option value="{{income_tab.payment_head_id}}" selected="true">{{income_tab.payment_head.payment_head}}</option>
+                                {% for i in pay_head %}
+                                <option value="{{i.id}}">{{i.payment_head}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Payment Method</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="regdetailsDesig" style="color:white;" name="pay_method">
+                                <option selected="true" value="{{income_tab.pay_method}}">{{income_tab.pay_method}}</option>
+                                <option value="Bank">Bank</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Department</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="regdetailsDesig" style="color:white;"
+                                name="pay_department">
+                                <option selected="true" value="{{income_tab.department_id}}">{{income_tab.department.department}}</option>
+                                {% for i in dep %}
+                                <option value="{{i.id}}">{{i.department}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-3 col-form-label"
+                            autocomplete="off">Description</label>
+                        <div class="col-sm-9">
+                            <textarea name="pay_description" class="form-control text-light" class="form-control"
+                                rows="6" required>{{income_tab.pay_description}}</textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-5">
+                        <center>
+                            <button onclick="return confirm('Are you sure?')"  type="Submit" class="btn btn-outline-primary btn-icon-text"><i
+                                    class="mdi mdi-file-check btn-icon-prepend"></i>
+                                Update </button>
+                        </center>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if msg_success %}
+<script>
+    alert("{{ msg_success }}");
+    javascript: history.go(-3);
+</script>
+{% endif %}
+<script>
+    $(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;    
+    $('#paydates').attr('max', maxDate);
+});
+   
+</script>
+
+
+
+
+
+
+{%endblock%}

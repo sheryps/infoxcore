@@ -1,0 +1,99 @@
+<div class="row mt-3 justify-content-center">
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <form>
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control text-light" id="myInput" placeholder="Search for names.."
+                  title="Type in a name" style="color:white;">
+
+
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Trainer Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Submition Date</th>
+                <th>files</th>
+                <th>user_files</th>
+                <th>Progress</th>
+                <th>Delay </th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              {% if names %}
+              {% for i in names %}
+              <tr>
+                <td>{{i.taskname}}</td>
+                <td>{{i.team_name.trainer}}</td>
+                <td>{{i.startdate|date:'d-m-Y'}}</td>
+                <td>{{i.enddate|date:'d-m-Y'}}</td>
+                <td>{{i.submitteddate|date:'d-m-Y'}}</td>
+                <td><a href="{{i.files}}" class="btn btn-social-icon-text btn-outline-success" download><i
+                      class="mdi mdi-tooltip-edit"></i>Download</a></td>
+                <td><a href="{{i.user_files}}" class="btn btn-social-icon-text btn-outline-success" download><i
+                      class="mdi mdi-tooltip-edit"></i>Download</a></td>
+                <td>
+                  <div class="progress">
+                    <div class="progress-bar " role="progressbar" style="width: {{i.task_progress}}% "
+                      aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{i.task_progress}}% </div>
+                  </div>
+                </td>
+
+                <td id="loop">
+                  <div class="badge badge-outline-danger">
+                    {% if i.delay %}
+                    {{i.delay}}
+                    {% else %} 0
+                    {% endif %}</div>
+                </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <th colspan="8">Total Delay</th>
+                <th>
+                  <div class="badge badge-outline-danger" id="total">{{a}}</div>
+                </th>
+              </tr>
+              {% else %}
+              <h5>Nothing to display...</h5>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+  $(function () {
+
+    var TotalValue = 0;
+
+    $("tr #loop").each(function (index, value) {
+      currentRow = parseFloat($(this).text());
+      TotalValue += currentRow
+    });
+
+    document.getElementById('total').innerHTML = TotalValue;
+
+  });
+
+</script>

@@ -1,0 +1,139 @@
+{% extends 'index_trainingmanager.html' %} {% load static %} {% block content %}
+
+<body>
+    <style>
+        a.ex1:hover,
+        a.ex1:active {
+            color: red;
+        }
+        
+        a.ex2:hover,
+        a.ex2:active {
+            font-size: 150%;
+        }
+        
+        a.ex3:hover,
+        a.ex3:active {
+            background: rgb(236, 232, 232);
+        }
+        
+        a.ex4:hover,
+        a.ex4:active {
+            font-family: monospace;
+        }
+        
+        a.ex5:visited,
+        a.ex5:link {
+            text-decoration: none;
+        }
+        
+        a.ex5:hover,
+        a.ex5:active {
+            text-decoration: underline;
+        }
+    </style>
+
+
+
+
+    <div class="row ">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <h4> Trainers</h4>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <form>
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name" style="color:white;">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- table start hear -->
+
+                    <div class="table-responsive">
+                        <table class="table " id="myTable">
+                            <thead>
+
+                                <tr data-href="#">
+                                    <th> Name </th>
+                                    <th> Department</th>
+                                    <th> Phone No. </th>
+                                    <th> Joining Date </th>
+                                    <th>level</th>
+                                    <th></th>
+                                    <th>Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if vars %} {% for t in vars %}
+                                <tr>
+                                    <td>
+                                        <a href="/team1/{{t.id}}" class="text-light text-decoration-none">
+                                            <img src="{{t.photo.url}}" alt="image">
+                                            <span class="ps-2 ">{{t.fullname}}</span></a>
+                                    </td>
+                                    <td>
+                                        <a href="/team1/{{t.id}}" class="text-light text-decoration-none"> {{t.department.department}}</a></td>
+                                    <td>
+                                        <a href="/team1/{{t.id}}" class="text-light text-decoration-none"> {{t.mobile}}</a></td>
+                                    <td>
+                                        <a href="/team1/{{t.id}}" class="text-light text-decoration-none"> {{t.joiningdate|date:"d-m-Y "}}</a></td>
+                                    <td>
+                                        <form action="{% url 'trainer_save' t.id %}" method="post">
+                                            {% csrf_token %}
+                                            <select class="badge badge-outline-primary bg-dark text-light" name="tr_level" required>
+                                                <option style="display: none " >select level</option>
+                                    
+                                                <option >Basic</option>
+                                                <option >Intermediate</option>
+                                                <option >Advanced</option>
+                                             
+                                            </select>
+
+                                    </td>
+                                    <td>
+                                        <button type="submit " class="btn btn-social-icon-text btn-outline-primary "><i class="mdi mdi-tooltip-edit "></i>Submit</button> </td>
+                                    </form>
+                                    <td><button type="submit " class="btn btn-social-icon-text btn-outline-success "><i class="mdi mdi-tooltip-edit "></i><a href="{% url 'trainer_progress_add' t.id %}" style="color: #fff;text-decoration:none">Progress</a></button> </td>
+                                </tr>
+
+                                {% endfor %}{% else %}
+                                <h5>Nothing to display...</h5>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput ");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable ");
+        tr = table.getElementsByTagName("tr ");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td ")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = " ";
+                } else {
+                    tr[i].style.display = "none ";
+                }
+            }
+        }
+    }
+</script>
+
+{% endblock %}
